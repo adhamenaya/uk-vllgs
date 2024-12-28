@@ -1,16 +1,208 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Website</title>
+    <title>Fly to a location based on scroll position</title>
+    <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.5.1/maptiler-sdk.umd.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.5.1/maptiler-sdk.css" rel="stylesheet" />
+    <style>
+        body {margin: 0; padding: 0;}
+        #map {position: absolute; top: 0; bottom: 0; width: 50%;}
+        #features {
+          width: 50%;
+          margin-left: 50%;
+          font-family: sans-serif;
+          overflow-y: scroll;
+          background-color: #fafafa;
+        }
+        section {
+          padding: 25px 50px;
+          line-height: 25px;
+          border-bottom: 1px solid #ddd;
+          opacity: 0.25;
+          font-size: 13px;
+        }
+        section.active {
+          opacity: 1;
+        }
+        section:last-child {
+          border-bottom: none;
+          margin-bottom: 200px;
+        }
+    </style>
 </head>
 <body>
-<header>
-    <h1>Welcome to My GitHub Pages Website</h1>
-</header>
-<main>
-    <p>This is a simple website hosted on GitHub Pages!</p>
-</main>
+<div id="map"></div>
+<div id="features">
+    <!-- Adding sections for each location -->
+    <section id="grasmere" class="active">
+        <h3>Grasmere</h3>
+        <p>Grasmere, located in the Lake District, is famed for its literary connections, particularly with poet William Wordsworth. It’s a peaceful village surrounded by stunning natural beauty, perfect for hiking and nature walks.</p>
+    </section>
+    <section id="bibury">
+        <h3>Bibury</h3>
+        <p>Bibury is a picturesque village in the Cotswolds, known for its iconic Arlington Row, a series of stone cottages. It’s often considered one of the most beautiful villages in England.</p>
+    </section>
+    <section id="hawes">
+        <h3>Hawes</h3>
+        <p>Hawes, located in the Yorkshire Dales, is famous for its Wensleydale cheese and picturesque stone buildings. It is an ideal base for exploring the Pennine Way and enjoying local nature.</p>
+    </section>
+    <section id="castleton">
+        <h3>Castleton</h3>
+        <p>Castleton is a charming village in the Peak District, known for its caves like the Blue John Cavern, and its scenic walks through the surrounding hills and valleys.</p>
+    </section>
+    <section id="portree">
+        <h3>Portree</h3>
+        <p>Portree, located on the Isle of Skye, is known for its colorful harborfront. It’s a perfect starting point for exploring Skye’s rugged landscapes and scenic views.</p>
+    </section>
+    <section id="clovelly">
+        <h3>Clovelly</h3>
+        <p>Clovelly is a unique car-free village in North Devon, known for its steep cobbled streets and stunning views of the North Sea. Its charm has inspired artists and filmmakers alike.</p>
+    </section>
+    <section id="llanberis">
+        <h3>Llanberis</h3>
+        <p>Llanberis, at the base of Mount Snowdon, is famous for being a gateway for hikers looking to reach Wales’ highest peak. It also offers stunning views of lakes and mountains.</p>
+    </section>
+    <section id="bamburgh">
+        <h3>Bamburgh</h3>
+        <p>Bamburgh is known for its imposing castle overlooking the North Sea. It’s a historically significant village with beaches and views of the Farne Islands.</p>
+    </section>
+    <section id="port-isaac">
+        <h3>Port Isaac</h3>
+        <p>Port Isaac is a small fishing village in Cornwall, famous for its narrow streets and being the filming location for the TV show "Doc Martin."</p>
+    </section>
+    <section id="tenby">
+        <h3>Tenby</h3>
+        <p>Tenby, a seaside town in Wales, is famous for its golden beaches and colorful Victorian buildings. It’s a popular spot for both relaxation and outdoor activities.</p>
+    </section>
+    <section id="tobermory">
+        <h3>Tobermory</h3>
+        <p>Tobermory, on the Isle of Mull, is known for its vibrant, colorfully painted buildings lining the harbor. The town is a perfect place to explore nature and local wildlife.</p>
+    </section>
+    <section id="broadway">
+        <h3>Broadway</h3>
+        <p>Broadway is a charming village in the Cotswolds, famous for its picturesque high street, historic buildings, and surrounding countryside perfect for walking.</p>
+    </section>
+    <section id="robin-hoods-bay">
+        <h3>Robin Hood’s Bay</h3>
+        <p>Robin Hood’s Bay is a picturesque village on the North Yorkshire coast, known for its steep streets and coastal views, making it a popular destination for nature lovers.</p>
+    </section>
+    <section id="ballater">
+        <h3>Ballater</h3>
+        <p>Ballater, in the Scottish Highlands, is a village steeped in royal connections, offering beautiful views and a gateway to the Cairngorms National Park.</p>
+    </section>
+    <section id="tissington">
+        <h3>Tissington</h3>
+        <p>Tissington is a small village in the Peak District known for its stunning well-dressing traditions and its location near the Tissington Trail for walking and cycling.</p>
+    </section>
+    <section id="ambleside">
+        <h3>Ambleside</h3>
+        <p>Ambleside, in the Lake District, is famous for its charming atmosphere, with stunning lakeside views and numerous hiking trails to nearby peaks.</p>
+    </section>
+    <section id="stow-on-the-wold">
+        <h3>Stow-on-the-Wold</h3>
+        <p>Stow-on-the-Wold is a market town in the Cotswolds, known for its historic buildings, antique shops, and beautiful surrounding countryside.</p>
+    </section>
+    <section id="grassington">
+        <h3>Grassington</h3>
+        <p>Grassington is a picturesque village in the Yorkshire Dales, offering beautiful walks, stunning stone cottages, and a relaxed atmosphere.</p>
+    </section>
+    <section id="bakewell">
+        <h3>Bakewell</h3>
+        <p>Bakewell is famous for its pudding and its scenic location in the heart of the Peak District, with historic buildings and nearby natural beauty.</p>
+    </section>
+    <section id="glencoe">
+        <h3>Glencoe</h3>
+        <p>Glencoe is a valley in the Scottish Highlands, renowned for its dramatic landscapes and its importance in Scottish history, offering hiking and outdoor activities.</p>
+    </section>
+    <section id="betws-y-coed">
+        <h3>Betws-y-Coed</h3>
+        <p>Betws-y-Coed is a village in Snowdonia, known for its beautiful location in the valley, with forest walks, waterfalls, and a great starting point for exploring the national park.</p>
+    </section>
+    <section id="burford">
+        <h3>Burford</h3>
+        <p>Burford, often called the "gateway to the Cotswolds," is known for its medieval charm, stunning buildings, and views of the surrounding countryside.</p>
+    </section>
+    <section id="lynton-and-lynmouth">
+        <h3>Lynton and Lynmouth</h3>
+        <p>Lynton and Lynmouth are twin villages on the North Devon coast, famous for their scenic cliff railway, stunning views, and dramatic landscapes.</p>
+    </section>
+    <section id="painswick">
+        <h3>Painswick</h3>
+        <p>Painswick is known for its beautiful churchyard and stunning views across the Cotswolds. It’s a peaceful village with picturesque stone buildings and surrounding gardens.</p>
+    </section>
+    <section id="kirkby-lonsdale">
+        <h3>Kirkby Lonsdale</h3>
+        <p>Kirkby Lonsdale, in Cumbria, is a market town surrounded by beautiful scenery, famous for its historic buildings and access to the Lake District and Yorkshire Dales.</p>
+    </section>
+    <section id="staithes">
+        <h3>Staithes</h3>
+        <p>Staithes is a small fishing village on the North Yorkshire coast, known for its picturesque harbor, narrow streets, and connection to local history and fishing.</p>
+    </section>
+    <section id="aberdaron">
+        <h3>Aberdaron</h3>
+        <p>Aberdaron, located in the far northwest of Wales, is a secluded village known for its stunning coastline, beaches, and proximity to the Pembrokeshire Coast Path.</p>
+    </section>
+    <section id="forres">
+        <h3>Forres</h3>
+        <p>Forres, located in the Scottish Highlands, is known for its peaceful atmosphere, beautiful parks, and its proximity to the Moray Coast.</p>
+    </section>
+</div>
+
+<script>
+    // Initialize map
+    const map = new maptiler.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/basic/style.json?key=5tNcdUkiHIGLQBvv01tP',
+      center: [-2.3, 53.8], // Centered on the UK
+      zoom: 6
+    });
+
+    // Coordinates for all 32 locations
+    const locations = {
+      grasmere: { lng: -3.021, lat: 54.453 },
+      bibury: { lng: -1.850, lat: 51.779 },
+      hawes: { lng: -2.207, lat: 54.302 },
+      castleton: { lng: -1.751, lat: 53.344 },
+      portree: { lng: -5.222, lat: 57.416 },
+      clovelly: { lng: -4.557, lat: 51.216 },
+      llanberis: { lng: -4.114, lat: 53.134 },
+      bamburgh: { lng: -1.721, lat: 55.605 },
+      port-isaac: { lng: -4.832, lat: 50.556 },
+      tenby: { lng: -4.702, lat: 51.671 },
+      tobermory: { lng: -5.782, lat: 56.625 },
+      broadway: { lng: -1.818, lat: 52.039 },
+      robing-hoods-bay: { lng: -0.487, lat: 54.440 },
+      ballater: { lng: -3.047, lat: 57.051 },
+      tissington: { lng: -1.694, lat: 53.149 },
+      ambleside: { lng: -2.967, lat: 54.431 },
+      stow-on-the-wold: { lng: -1.723, lat: 51.926 },
+      grassington: { lng: -1.976, lat: 53.995 },
+      bakewell: { lng: -1.673, lat: 53.211 },
+      glencoe: { lng: -5.013, lat: 56.687 },
+      betws-y-coed: { lng: -3.806, lat: 53.082 },
+      burford: { lng: -1.708, lat: 51.805 },
+      lynton-and-lynmouth: { lng: -3.833, lat: 51.207 },
+      painswick: { lng: -2.129, lat: 51.797 },
+      kirkby-lonsdale: { lng: -2.601, lat: 54.222 },
+      staithes: { lng: -0.747, lat: 54.556 },
+      aberdaron: { lng: -4.684, lat: 52.789 },
+      forres: { lng: -3.634, lat: 57.611 },
+    };
+
+    // Update location display based on scroll
+    document.querySelectorAll('section').forEach((section) => {
+      section.addEventListener('mouseenter', () => {
+        const locationId = section.id;
+        const location = locations[locationId];
+        map.flyTo({ center: [location.lng, location.lat], zoom: 10 });
+        section.classList.add('active');
+      });
+      section.addEventListener('mouseleave', () => {
+        section.classList.remove('active');
+      });
+    });
+</script>
 </body>
 </html>
